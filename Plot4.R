@@ -1,12 +1,15 @@
 
-PowerConsumption=read.table("C:/Data Science/ExplorData/exdata_data_household_power_consumption/household_power_consumption.txt",sep=";",header=TRUE,stringsAsFactors=FALSE)
+Power=read.table("C:/Data Science/ExplorData/exdata_data_household_power_consumption/household_power_consumption.txt",sep=";",header=TRUE,stringsAsFactors=FALSE)
+
+
+PowerConsumption <- subset(Power, as.Date(Power$Date, format="%d/%m/%Y") %in% as.Date(c("2007-02-01", "2007-02-02"), format="%Y-%m-%d"))
 
 
 DateTimeFunction=function(x,y) {paste(x,y,sep=" ")}
 
 PowerConsumption$Date_Time1=mapply(DateTimeFunction,PowerConsumption$Date,PowerConsumption$Time)
 PowerConsumption$Date_Time=strptime(PowerConsumption$Date_Time1,format="%d/%m/%Y %H:%M:%S")
-PowerConsumption$Date=strptime(PowerConsumption$Date, format="%d/%m/%Y")
+
 
 
 PowerConsumption$Global_active_power=as.numeric(PowerConsumption$Global_active_power)
@@ -18,7 +21,7 @@ PowerConsumption$Sub_metering_2=as.numeric(PowerConsumption$Sub_metering_2)
 PowerConsumption$Sub_metering_3=as.numeric(PowerConsumption$Sub_metering_3)
 PowerConsumption$Voltage=as.numeric(PowerConsumption$Voltage)
 
-PowerConsumption=subset(PowerConsumption,PowerConsumption$Date>as.POSIXlt("2007-01-31") & PowerConsumption$Date<as.POSIXlt("2007-02-03"))
+
 
 png(file="plot4.png",width=480,height=480)
 par(mfrow=c(2,2))
